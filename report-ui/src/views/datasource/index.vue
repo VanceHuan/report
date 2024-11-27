@@ -1,23 +1,27 @@
-<!--
- * @Descripttion: 报表设计--数据源
- * @version: 
- * @Author: yanzili
- * @Date: 2021-12-11 14:48:27
- * @LastEditors: qianlishi
- * @LastEditTime: 2022-03-09 09:43:31
--->
 <template>
-  <anji-crud ref="listPage" :option="crudOption">
-    <template v-slot:pageSection>
-      <EditDataSource
-        ref="EditDataSource"
-        :dataSource="dataSource"
-        :visib="dialogVisibleSetDataSource"
-        @handleClose="dialogVisibleSetDataSource = false"
-        @refreshList="refreshList"
-      />
-    </template>
-  </anji-crud>
+  <div class="wrap">
+    <div class="head">
+      <img src="../../../static/table_sin_icon.png" alt="">
+      <span>报表设计</span>
+    </div>
+    <div class="content">
+      <Menu activePath="/report/datasource" />
+      <div class="main-layout">
+        <div class="head">
+          <img src="../../../static/data_ori_icon.png" alt="">
+          <span>数据源</span>
+        </div>
+        <anji-crud ref="listPage" :option="crudOption" style="padding-top: 54px;">
+          <template v-slot:pageSection>
+            <EditDataSource ref="EditDataSource" :dataSource="dataSource" :visib="dialogVisibleSetDataSource"
+              @handleClose="dialogVisibleSetDataSource = false" @refreshList="refreshList" />
+          </template>
+        </anji-crud>
+      </div>
+
+    </div>
+  </div>
+
 </template>
 <script>
 import {
@@ -28,10 +32,12 @@ import {
   reportDataSourceDetail
 } from "@/api/reportDataSource";
 import EditDataSource from "./components/EditDataSource";
+import Menu from "../../components/Menu.vue";
 export default {
   name: "ReportDataSource",
   components: {
-    EditDataSource: EditDataSource
+    EditDataSource: EditDataSource,
+    Menu
   },
   data() {
     return {
@@ -250,3 +256,41 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.wrap {
+  padding-top: 18px;
+
+  .head {
+    display: flex;
+    align-items: center;
+    margin-bottom: 26px;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+
+    span {
+      color: rgba(29, 64, 175, 1);
+      font-size: 14px;
+      margin-left: 11px;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+  }
+}
+.main-layout {
+  position: relative;
+  .head {
+    position: absolute;
+    top: 23px;
+    left: 23px;
+    z-index: 999;
+    margin-bottom: 0;
+  }
+}
+</style>

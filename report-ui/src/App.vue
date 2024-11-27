@@ -47,3 +47,8 @@ export default {
   }
 };
 </script>
+<style lang="css" >
+.v-modal {
+  display: none !important;
+}
+</style>

@@ -65,6 +65,7 @@ export const constantRouterMap = [
     path: '/access',
     name: 'access',
     component: Layout,
+    hidden: true,
     meta: {
       title: '用户权限',
       icon: 'icondfzq-',

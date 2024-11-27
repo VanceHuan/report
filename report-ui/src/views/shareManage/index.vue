@@ -1,16 +1,25 @@
-<!--
- * @Descripttion: 报表分享
- * @Author: Raod
- * @Date: 2022-7-30 11:10:24
- * @Last Modified by:   qianlishi
- * @Last Modified time: 2022-8-1 11:04:24
- !-->
 <template>
-  <anji-crud ref="listPage" :option="crudOption">
-    <template v-slot:pageSection>
+  <div class="wrap">
+    <div class="head">
+      <img src="../../../static/table_sin_icon.png" alt="">
+      <span>报表设计</span>
+    </div>
+    <div class="content">
+      <Menu activePath="/report/shareManage" />
+      <div class="main-layout">
+        <div class="head">
+          <img src="../../../static/share_icon.png" alt="">
+          <span>报表分享</span>
+        </div>
+        <anji-crud ref="listPage" :option="crudOption" style="padding-top: 54px;">
+          <template v-slot:pageSection>
 
-    </template>
-  </anji-crud>
+          </template>
+        </anji-crud>
+      </div>
+    </div>
+  </div>
+
 </template>
 <script>
 import {
@@ -19,10 +28,12 @@ import {
   reportShareList,
   reportShareDelay, reportShareAdd
 } from "@/api/reportShare";
+import Menu from "../../components/Menu.vue";
 export default {
   name: "Report",
   components: {
     anjiCrud: require("@/components/AnjiPlus/anji-crud/anji-crud").default,
+    Menu
   },
   data() {
     return {
@@ -216,7 +227,7 @@ export default {
     };
   },
 
-  created() {},
+  created() { },
   methods: {
     handleOpenDialog1() {
       alert("自定义按钮1点击事件");
@@ -236,7 +247,7 @@ export default {
       const param = {}
       param['id'] = shareId
       param['shareValidType'] = shareValidType
-      const {code} = await reportShareDelay(param);
+      const { code } = await reportShareDelay(param);
       if (code != "200") return;
       this.$message({
         message: "延期成功！",
@@ -264,3 +275,41 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.wrap {
+  padding-top: 18px;
+
+  .head {
+    display: flex;
+    align-items: center;
+    margin-bottom: 26px;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+
+    span {
+      color: rgba(29, 64, 175, 1);
+      font-size: 14px;
+      margin-left: 11px;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+  }
+}
+.main-layout {
+  position: relative;
+  .head {
+    position: absolute;
+    top: 23px;
+    left: 23px;
+    z-index: 999;
+    margin-bottom: 0;
+  }
+}
+</style>

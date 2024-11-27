@@ -16,7 +16,7 @@ export default {
   name: 'AppMain',
   computed: {
     ...mapGetters(['cacheViews']),
-    key() {
+    key() {      
       return this.$route.name !== undefined ? this.$route.name + +new Date() : this.$route + +new Date()
     }
   }
@@ -25,10 +25,10 @@ export default {
 
 <style scoped>
 .app-main {
-  position: fixed;
-  left: 263px;
-  top: 60px;
-  width: calc(100% - 263px);
-  height: calc(100vh - 60px);
+  /*50 = navbar  */
+  height: calc(100vh - 50px);
+  position: relative;
+  overflow: auto;
+  background: #f5f8fa;
 }
 </style>

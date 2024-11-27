@@ -1,41 +1,43 @@
-<!--
- * @Descripttion: 用户权限--数据集
- * @version: 
- * @Author: qianlishi
- * @Date: 2021-12-11 14:48:27
- * @LastEditors: qianlishi
- * @LastEditTime: 2022-04-14 18:48:24
--->
 <template>
-  <anji-crud ref="listPage" :option="crudOption">
-    <template v-slot:tableButtons>
-      <el-dropdown placement="bottom" @command="operateDataset">
-        <el-button type="primary" icon="el-icon-plus">
-          新增
-          <i class="el-icon-arrow-down el-icon--right"></i>
-        </el-button>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="sql">SQL</el-dropdown-item>
-          <el-dropdown-item command="http">HTTP</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </template>
+  <div class="wrap">
+    <div class="head">
+      <img src="../../../static/table_sin_icon.png" alt="">
+      <span>报表设计</span>
+    </div>
+    <div class="content">
+      <Menu activePath="/report/resultset" />
+      <div class="main-layout">
+        <div class="head">
+          <img src="../../../static/data_col_icon.png" alt="">
+          <span>数据集</span>
+        </div>
+        <anji-crud ref="listPage" :option="crudOption" style="padding-top: 54px;">
+          <template v-slot:tableButtons>
+            <el-dropdown placement="bottom" @command="operateDataset">
+              <el-button
+                :style="`width: 100px;height: 32px;border-radius: 8px;color:#fff;font-size: 14px;background: rgba(29, 64, 175, 1);`"
+                icon="el-icon-plus">
+                新增
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="sql">SQL</el-dropdown-item>
+                <el-dropdown-item command="http">HTTP</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </template>
 
-    <template v-slot:pageSection>
-      <EditDataSet
-        ref="EditDataSet"
-        :dataSet="dataSet"
-        :visib="dialogVisibleSetDataSet"
-        @handleClose="dialogVisibleSetDataSet = false"
-        @refreshList="refreshList"
-      />
-      <DataView
-        ref="DataView"
-        :visib="dialogCaseResult"
-        @handleClose="dialogCaseResult = false"
-      />
-    </template>
-  </anji-crud>
+          <template v-slot:pageSection>
+            <EditDataSet ref="EditDataSet" :dataSet="dataSet" :visib="dialogVisibleSetDataSet"
+              @handleClose="dialogVisibleSetDataSet = false" @refreshList="refreshList" />
+            <DataView ref="DataView" :visib="dialogCaseResult" @handleClose="dialogCaseResult = false" />
+          </template>
+        </anji-crud>
+      </div>
+
+    </div>
+  </div>
+
 </template>
 <script>
 import {
@@ -47,12 +49,13 @@ import {
 } from "@/api/reportDataSet";
 import EditDataSet from "./components/EditDataSet";
 import DataView from "./components/DataView";
-
+import Menu from "../../components/Menu.vue";
 export default {
   name: "ReportDataSet",
   components: {
     EditDataSet: EditDataSet,
-    DataView: DataView
+    DataView: DataView,
+    Menu
   },
   data() {
     return {
@@ -315,5 +318,42 @@ export default {
 <style lang="scss" scoped>
 /deep/.el-dropdown {
   margin-right: 20px;
+}
+
+.wrap {
+  padding-top: 18px;
+
+  .head {
+    display: flex;
+    align-items: center;
+    margin-bottom: 26px;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+
+    span {
+      color: rgba(29, 64, 175, 1);
+      font-size: 14px;
+      margin-left: 11px;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+  }
+}
+.main-layout {
+  position: relative;
+  .head {
+    position: absolute;
+    top: 23px;
+    left: 23px;
+    z-index: 999;
+    margin-bottom: 0;
+  }
 }
 </style>

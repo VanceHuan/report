@@ -1,7 +1,8 @@
 <template>
   <div :class="classObj" class="app-wrapper">
-    <sidebar/>
-    <div >
+    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
+    <sidebar class="sidebar-container"/>
+    <div class="main-container">
       <navbar/>
       <app-main/>
     </div>
@@ -54,6 +55,9 @@ export default {
   },
   methods: {
     ...mapActions(['addCachedView']),
+    handleClickOutside() {
+      this.$store.dispatch('CloseSideBar', { withoutAnimation: false })
+    }
   }
 }
 </script>
@@ -65,7 +69,18 @@ export default {
     position: relative;
     height: 100%;
     width: 100%;
-    background: url("https://img.js.design/assets/img/674433d15a16d2d8d64014f1.jpg#207706b2e51b30fb61991c66e6ecede3");
-    background-size: cover;
+    &.mobile.openSidebar{
+      position: fixed;
+      top: 0;
+    }
+  }
+  .drawer-bg {
+    background: #000;
+    opacity: 0.3;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
   }
 </style>

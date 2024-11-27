@@ -1,118 +1,80 @@
-<!--
- * @Descripttion: 大屏报表卡片列表
- * @Author: Devli
- * @Date: 2021-3-19 10:23:24
- * @Last Modified by:   qianlishi
- * @Last Modified time: 2021-3-13 11:04:24
- !-->
 <template>
-  <div class="main-layout">
-    <el-form ref="form" :model="params" :rules="rules" label-width="120px">
-      <!-- 搜索 -->
-      <el-row :gutter="10">
-        <el-col :xs="24" :sm="20" :md="12" :lg="6" :xl="4">
-          <el-form-item label="名称">
-            <el-input
-              v-model="params.reportName"
-              size="mini"
-              clearable
-              placeholder="名称"
-              class="filter-item"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :xs="24" :sm="20" :md="12" :lg="6" :xl="4">
-          <el-form-item label="报表编码">
-            <el-input
-              v-model="params.reportCode"
-              size="mini"
-              clearable
-              placeholder="报表编码"
-              class="filter-item"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :xs="24" :sm="20" :md="4" :lg="4" :xl="4">
-          <el-button type="primary" size="mini" @click="search('form')"
-            >查询</el-button
-          >
-          <el-button type="danger" size="mini" @click="reset('form')"
-            >重置</el-button
-          >
-        </el-col>
-      </el-row>
-    </el-form>
-    <el-row :gutter="20">
-      <el-col v-for="item in list" :key="item.id" :span="6">
-        <div class="bg">
-          <img
-            class="bg-img"
-            :src="
-              item.reportImage == null || item.reportImage == ''
-                ? require('@/assets/images/charts.jpg')
-                : item.reportImage
-            "
-            alt=""
-          />
-          <div class="content">
-            <header>{{ item.reportName }}</header>
-            <footer>
-              {{ item.updateTime }}
-              <div class="operation">
-                <el-button
-                  icon="el-icon-share"
-                  class="view"
-                  type="text"
-                  @click="share(item)"
-                  v-permission="'bigScreenManage:share'"
-                />
-                <el-button
-                  icon="el-icon-view"
-                  class="view"
-                  type="text"
-                  @click="viewDesign(item)"
-                  v-permission="'bigScreenManage:view'"
-                />
-                <el-button
-                  icon="el-icon-edit"
-                  class="edit"
-                  type="text"
-                  @click="openDesign(item)"
-                  v-permission="'bigScreenManage:design'"
-                />
+  <div class="wrap">
+    <div class="head">
+      <img src="../../../static/table_sin_icon.png" alt="">
+      <span>报表设计</span>
+    </div>
+    <div class="content">
+      <Menu activePath="/report/bigscreen" />
+      <div class="main-layout">
+        <div class="head">
+          <img src="../../../static/screen_icon.png" alt="">
+          <span>大屏报表</span>
+        </div>
+        <el-form ref="form" :model="params" :rules="rules" label-width="120px">
+          <!-- 搜索 -->
+          <div class="form-box">
+            <el-form-item label="报表名称">
+              <el-input v-model="params.reportName" size="mini" clearable placeholder="名称" class="filter-item" />
+            </el-form-item>
+            <el-form-item label="报表编码">
+              <el-input v-model="params.reportCode" size="mini" clearable placeholder="报表编码" class="filter-item" />
+            </el-form-item>
+            <el-button
+              style="display: flex;justify-content: center;align-items: center; width: 50px;height: 31px;border-radius: 8px;border: 1px solid rgba(29, 64, 175, 1);color: rgba(71, 86, 105, 1);margin-right: 30px;"
+              @click="search('form')">查询</el-button>
+            <el-button
+              style="display: flex;justify-content: center;align-items: center; width: 50px;height: 31px;border-radius: 8px;background: rgba(29, 64, 175, 1); color: #fff;"
+              @click="reset('form')">重置</el-button>
+          </div>
+        </el-form>
+        <div class="list">
+          <div v-for="item in list" :key="item.id" class="list-item">
+            <div class="bg">
+              <img class="bg-img" src="../../../static/def_gra.png" />
+              <div class="content">
+                <div class="title">{{ item.reportName }}</div>
+                <footer>
+                  {{ item.updateTime }}
+                  <div class="operation">
+                    <el-button icon="el-icon-share" class="view" type="text" @click="share(item)"
+                      v-permission="'bigScreenManage:share'" />
+                    <el-button icon="el-icon-view" class="view" type="text" @click="viewDesign(item)"
+                      v-permission="'bigScreenManage:view'" />
+                    <el-button icon="el-icon-edit" class="edit" type="text" @click="openDesign(item)"
+                      v-permission="'bigScreenManage:design'" />
+                  </div>
+                </footer>
               </div>
-            </footer>
+            </div>
+            <div class="info">
+              <span>制作人：官方</span>
+              <span>下载次数：223</span>
+            </div>
           </div>
         </div>
-      </el-col>
-    </el-row>
-    <div class="block">
-      <el-pagination
-        :total="totalCount"
-        :page-sizes="[8, 20, 50, 100]"
-        :page-size="params.pageSize"
-        :current-page="params.pageNumber"
-        layout="total, sizes, prev, pager, next, jumper"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
+
+        <div class="block">
+          <el-pagination :total="totalCount" :page-sizes="[8, 20, 50, 100]" :page-size="params.pageSize"
+            :current-page="params.pageNumber" layout="total, sizes, prev, pager, next, jumper"
+            @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+        </div>
+        <ShareConfig :visib="visibleForShareDialog" :reportCode="reportCodeForShareDialog"
+          :reportName="reportNameForShareDialog" :reportType="reportTypeForShareDialog"
+          @handleClose="visibleForShareDialog = false" />
+      </div>
     </div>
-    <ShareConfig
-      :visib="visibleForShareDialog"
-      :reportCode="reportCodeForShareDialog"
-      :reportName="reportNameForShareDialog"
-      :reportType="reportTypeForShareDialog"
-      @handleClose="visibleForShareDialog = false"
-    />
   </div>
+
 </template>
 
 <script>
 import ShareConfig from "./share/shareConfig";
 import { reportPageList } from "@/api/report";
+import Menu from "../../components/Menu.vue";
 export default {
   name: "Login",
-  components: { ShareConfig },
+  components: { ShareConfig, Menu },
   data() {
     return {
       list: [],
@@ -135,7 +97,7 @@ export default {
       reportTypeForShareDialog: "",
     };
   },
-  mounted() {},
+  mounted() { },
   created() {
     this.queryByPage();
   },
@@ -203,32 +165,85 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.wrap {
+  padding-top: 18px;
+
+  .head {
+    display: flex;
+    align-items: center;
+    margin-bottom: 26px;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+
+    span {
+      color: rgba(29, 64, 175, 1);
+      font-size: 14px;
+      margin-left: 11px;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+  }
+}
+
 .main-layout {
   padding: 20px;
   position: relative;
   height: auto;
   background: #fff;
-  header {
-    font-size: 24px;
-    text-align: center;
-    line-height: 80px;
-  }
-  .bg {
-    width: 100%;
-    height: 200px;
-    position: relative;
-    overflow: hidden;
-    margin: 10px 0;
-    border: 12px solid white;
+  width: 70%;
+  border-radius: 8px;
+
+  .head {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+
+    span {
+      color: rgba(53, 64, 79, 1);
+      font-size: 16px;
+      margin-left: 10px;
+    }
   }
 
-  .bg .bg-img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    filter: blur(6px);
-    z-index: 2;
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+
+    .list-item {
+      margin-top: 31px;
+      position: relative;
+      .bg {
+        width: 328px;
+        height: 177px;
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+        background: #fff;
+
+        .bg-img {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 328px;
+          height: 177px;
+          z-index: 2;
+        }
+      }
+    }
   }
+
   .content {
     width: 100%;
     height: 100%;
@@ -237,22 +252,91 @@ export default {
     left: 0;
     top: 0;
     z-index: 3;
-  }
-  footer {
-    width: 100%;
-    font-size: 14px;
-    padding: 16px;
-    line-height: 30px;
-    position: absolute;
-    z-index: 3;
-    bottom: 0;
-    .operation {
-      float: right;
-      .view,
-      .edit {
-        color: #fff;
-        font-size: 14px;
+
+    .title {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    footer {
+      width: 100%;
+      font-size: 14px;
+      position: absolute;
+      z-index: 3;
+      padding: 0 13px;
+      bottom: 11px;
+      display: flex;
+      justify-content: space-between;
+
+      .operation {
+        display: flex;
+
+        .view,
+        .edit {
+          color: #fff;
+          font-size: 14px;
+          padding: 0;
+          margin-left: 30px;
+        }
       }
+    }
+  }
+
+  .info {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 10px;
+    color: #CCCCCC;
+  }
+}
+
+.block {
+  position: absolute;
+  right: 42px;
+  bottom: 75px;
+}
+
+.form-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/deep/ .el-form-item {
+  margin-bottom: 0;
+  display: flex;
+  margin-right: 54px;
+
+  .el-form-item__label {
+    width: 70px !important;
+    margin-right: 14px;
+    display: flex;
+    align-items: center;
+  }
+
+  .el-form-item__content {
+    display: flex;
+    align-items: center;
+    margin-left: 0 !important;
+    width: 244px;
+    height: 42.28px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 1);
+
+    border: 1px solid rgba(210, 220, 231, 1);
+
+    input {
+      border: none;
     }
   }
 }

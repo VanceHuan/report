@@ -1,119 +1,17 @@
 <template>
-  <div>
-    <el-menu class="navbar" mode="horizontal">
-      <hamburger
-        :toggle-click="toggleSideBar"
-        :is-active="sidebar.opened"
-        class="hamburger-container"
-      />
-      <breadcrumb />
-      <div class="right-menu">
-        <div class="item-men">
-          <div class="item" @click="centerDialogVisible = true">说明</div>
-          <div class="item">
-            <a href="https://ajreport.beliefteam.cn/report-doc/" target="blank"
-            >文档</a
-            >
-          </div>
-          <div class="item">
-            <a href="https://gitee.com/anji-plus/report" target="blank">社区</a>
-          </div>
-        </div>
-
-        <el-dropdown class="avatar-container" trigger="click">
-          <div class="avatar-wrapper">
-            <i class="icon iconfont iconyonghu user" />
-            <span class="user-name">{{ operatorText }}</span>
-            <i class="el-icon-caret-bottom" />
-          </div>
-          <el-dropdown-menu slot="dropdown" class="user-dropdown">
-            <el-dropdown-item divided>
-              <span style="display:block;" @click="updatePassword">修改密码</span>
-            </el-dropdown-item>
-            <el-dropdown-item divided>
-              <span style="display:block;" @click="logout">注销登录</span>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-
-    </el-menu>
-    <!-- 修改密码弹框 -->
-    <el-dialog
-      title="修改密码"
-      :visible.sync="wordVisible"
-      width="40%"
-      :close-on-click-modal="false"
-      top="20vh"
-      class="password-box"
-    >
-      <el-form
-        ref="form"
-        :model="form"
-        label-width="100px"
-        :rules="rules"
-        :close-on-click-modal="false"
-      >
-        <el-form-item label="原密码" prop="oldPassword">
-          <el-input
-            v-model.trim="form.oldPassword"
-            type="password"
-            autocomplete="off"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="新密码" prop="password">
-          <el-input
-            v-model.trim="form.password"
-            type="password"
-            autocomplete="off"
-          ></el-input>
-          <!-- <span class="password-tips"><i class="el-icon-warning-outline"> 密码至少8位,切包含大写、小写字母、数字、特殊字符中的3种</i></span> -->
-        </el-form-item>
-        <el-form-item label="确认新密码" prop="confirmPassword">
-          <el-input
-            v-model.trim="form.confirmPassword"
-            type="password"
-            autocomplete="off"
-          ></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="wordVisible = false">取 消</el-button>
-        <el-button type="primary" @click="confrimUpdate">确 定</el-button>
-      </span>
-    </el-dialog>
-
-    <!--说明弹出框-->
-    <el-dialog
-      title="说明"
-      :visible.sync="centerDialogVisible"
-      width="34%"
-      center
-    >
-      <div style="font-size: 20px; line-height: 50px; margin-bottom: 50px">
-        AJ-Report由<a href="http://www.anji-plus.com/" target="_blank" style="text-decoration: underline"><b>安吉加加信息技术有限公司</b></a
-      >遵循 <a href="http://www.apache.org/licenses/LICENSE-2.0.html" target="_blank" style="text-decoration: underline; word-wrap: break-word"><strong style="color: orangered" >Apache2.0开源协议</strong></a
-      >在<a href="https://gitee.com/explore" target="_blank" style="text-decoration: underline; word-wrap: break-word"><b>Gitee平台</b></a
-      >进行开源。
-      </div>
-      <div style="font-size: 20px; line-height: 50px">
-        <strong> 个人/商业使用须遵循Apache2.0开源协议。</strong>
-        <strong style="color: orangered">禁止将AJ-Report产品用于违法违规业务。</strong>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="centerDialogVisible = false"
-        >确 定</el-button
-        >
-      </span>
-    </el-dialog>
+  <div class="navbar">
+    <div class="nav-item">
+      <img src="../../../../static/home.png" />
+      <span class="title">首页</span>
+    </div>
+    <div class="avatar-wrap">
+      <img src="../../../../static/avatar.png" alt="头像" class="avatar"  />
+      <img src="../../../../static/down_icon.png" alt="下拉" class="down-icon" />
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Breadcrumb from "@/components/Breadcrumb";
-import Hamburger from "@/components/Hamburger";
-import { getStorageItem } from "@/utils/storage";
 import { reqUpdatePassword } from "@/api/login";
 import { transPsw } from "@/utils/encrypted";
 
@@ -167,23 +65,13 @@ export default {
           { required: true, validator: validatePass3, trigger: "blur" }
         ]
       },
-
-      // 说明
-      centerDialogVisible: false
     };
   },
   components: {
-    Breadcrumb,
-    Hamburger
   },
   computed: {
-    ...mapGetters(["sidebar"])
   },
-  created() {},
   methods: {
-    toggleSideBar() {
-      this.$store.dispatch("ToggleSideBar");
-    },
     logout() {
       this.$confirm("确定要退出吗", "温馨提示", {
         confirmButtonText: "确定",
@@ -225,99 +113,58 @@ export default {
         }
       });
     },
-    helpCenter() {
-      let helpCategory = getStorageItem("helpCategory");
-      this.$router.push({
-        path: "/helpCenList/list",
-        query: {
-          id: 0,
-          val: helpCategory[0].value,
-          title: helpCategory[0].label
-        }
-      });
-    }
+
   }
 };
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 .navbar {
-  height: 50px;
-  line-height: 50px;
-  border-radius: 0px !important;
-  background: #fff !important;
+  width: calc(100% - 263px);
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 263px;
+  padding-top: 30px;
   display: flex;
-  flex-direction: row;
-  .hamburger-container {
-    line-height: 57px;
-    height: 49px;
-    float: left;
-    padding: 0 10px;
-    background: #fff;
-  }
-  .screenfull {
-    position: absolute;
-    right: 90px;
-    top: 16px;
-    color: red;
-  }
-  .right-menu {
-    position: absolute;
-    right: 35px;
+  align-items: center;
+
+  .nav-item {
+    width: 80px;
     display: flex;
-    .item-men {
-      display: flex;
-      flex-direction: row;
-      .item {
-        margin-right: 60px;
-        cursor: pointer;
-      }
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #1D40AF;
+
+    img {
+      width: 13px;
+      height: 13px;
+    }
+
+    .title {
+      font-size: 14px;
+      color: #1D40AF;
+      margin-left: 12px;
     }
   }
-  .avatar-container {
-    height: 50px;
-    display: inline-block;
-    .avatar-wrapper {
-      line-height: 50px;
-      cursor: pointer;
-      position: relative;
-      .user-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-        vertical-align: text-bottom;
-      }
-      .user-name {
-        color: #333;
-      }
-      .el-icon-caret-bottom {
-        color: #333;
-        position: absolute;
-        right: -20px;
-        top: 21px;
-        font-size: 12px;
-      }
-      .user {
-        color: #333;
-        font-size: 16px;
-      }
-    }
-  }
-}
-.password-box {
-  .password-tips {
+
+  .avatar-wrap {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
     position: absolute;
-    right: 0px;
-    top: 100%;
-    line-height: 1;
-    font-size: 13px;
-    padding-top: 4px;
+    right: 39px;
+    top: 34px;
+    .avatar {
+      width: 26px;
+      height: 26px;
+    }
+    .down-icon {
+      width: 12px;
+      height: 12px;
+      margin-left: 4;
+    }
   }
-}
-.el-popper {
-  padding: 0;
-}
-.el-dropdown-menu__item--divided {
-  margin-top: 0;
 }
 </style>

@@ -1,24 +1,28 @@
-<!--
- * @Descripttion: 报表设计--报表管理
- * @version:
- * @Author: yanzili
- * @Date: 2021-6-24 14:48:27
- * @LastEditors: qianlishi
- * @LastEditTime: 2022-05-17 17:38:44
--->
 <template>
-  <anji-crud ref="listPage" :option="crudOption">
-    <template v-slot:pageSection>
-      <Share
-        :visib="visibleForShareDialog"
-        :reportCode="reportCodeForShareDialog"
-        :reportName="reportNameForShareDialog"
-        :reportType="reportTypeForShareDialog"
-        @handleClose="visibleForShareDialog = false"
-      />
-      <copyDialog :visib.sync="copyVisible" :rowData="rowData" @close="close" />
-    </template>
-  </anji-crud>
+  <div class="wrap">
+    <div class="head">
+      <img src="../../../static/table_sin_icon.png" alt="">
+      <span>报表设计</span>
+    </div>
+    <div class="content">
+      <Menu activePath="/report/report" />
+      <div class="main-layout">
+        <div class="head">
+          <img src="../../../static/table_man_icon.png" alt="">
+          <span>报表管理</span>
+        </div>
+        <anji-crud ref="listPage" :option="crudOption" style="padding-top: 54px;">
+          <template v-slot:pageSection>
+          <Share :visib="visibleForShareDialog" :reportCode="reportCodeForShareDialog"
+            :reportName="reportNameForShareDialog" :reportType="reportTypeForShareDialog"
+            @handleClose="visibleForShareDialog = false" />
+          <copyDialog :visib.sync="copyVisible" :rowData="rowData" @close="close" />
+          </template>
+        </anji-crud>
+      </div>
+    </div>
+  </div>
+
 </template>
 <script>
 import {
@@ -33,12 +37,15 @@ import Share from "./components/share";
 import copyDialog from "./components/copyDialog.vue";
 import { validateEngOrNum } from "@/utils/validate";
 import { verificationSet } from "@/api/report";
+import Menu from "../../components/Menu.vue";
+
 export default {
   name: "Report",
   components: {
     anjiCrud: require("@/components/AnjiPlus/anji-crud/anji-crud").default,
     Share,
-    copyDialog
+    copyDialog,
+    Menu
   },
   data() {
     return {
@@ -330,7 +337,7 @@ export default {
     };
   },
 
-  created() {},
+  created() { },
   methods: {
     handleOpenDialog1() {
       alert("自定义按钮1点击事件");
@@ -375,14 +382,14 @@ export default {
     checkReport(val) {
       if ("report_screen" == val.reportType) {
         return true;
-      }else {
+      } else {
         return false;
       }
     },
     checkExcel(val) {
       if ("report_excel" == val.reportType) {
         return true;
-      }else {
+      } else {
         return false;
       }
     },
@@ -404,3 +411,40 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.wrap {
+  padding-top: 18px;
+
+  .head {
+    display: flex;
+    align-items: center;
+    margin-bottom: 26px;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+
+    span {
+      color: rgba(29, 64, 175, 1);
+      font-size: 14px;
+      margin-left: 11px;
+    }
+  }
+  .content {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+  }
+}
+.main-layout {
+  position: relative;
+  .head {
+    position: absolute;
+    top: 23px;
+    left: 23px;
+    z-index: 999;
+    margin-bottom: 0;
+  }
+}
+</style>
