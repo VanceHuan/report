@@ -39,6 +39,8 @@
       :visible.sync="dialogVisible"
       width="30%"
       :before-close="handleClose"
+      :append-to-body="true"
+    :modal-append-to-body="true"
     >
       <el-form ref="myForm" v-model="linkageForm" label-width="100px">
         <el-form-item label="被联动的组件">

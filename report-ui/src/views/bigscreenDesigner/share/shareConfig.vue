@@ -15,6 +15,8 @@
     center
     :visible.sync="visib"
     :before-close="closeDialog"
+    :append-to-body="true"
+    :modal-append-to-body="true"
   >
     <div v-if="shareLinkFlag1">
       <el-form

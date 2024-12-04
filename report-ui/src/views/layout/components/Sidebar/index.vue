@@ -57,6 +57,21 @@ export default {
       ]
     }
   },
+  watch: {
+    $route(to, from) {
+      this.menus.forEach(item => {
+        item.active = false
+      })
+      const currentMainPath = '/' + to.path.split('/')[1]
+      const activeMenu = this.menus.find(item => {
+        const menuMainPath = '/' + item.path.split('/')[1]
+        return menuMainPath === currentMainPath
+      })
+      if (activeMenu) {
+        activeMenu.active = true
+      }
+    }
+  },
   computed: {
     ...mapGetters(["sidebar"]),
     routes() {

@@ -41,6 +41,8 @@
       :visible.sync="dialogVisible"
       width="30%"
       :before-close="handleClose"
+      :append-to-body="true"
+      :modal-append-to-body="true"
     >
       <el-form>
         <el-form-item label="颜色">

@@ -6,6 +6,8 @@
     center
     :visible.sync="visib"
     :before-close="closeDialog"
+    :append-to-body="true"
+    :modal-append-to-body="true"
   >
     <el-form
       ref="userForm"
@@ -75,9 +77,7 @@
     <div slot="footer" class="dialog-footer">
       <el-button @click="closeDialog">取消</el-button>
       <el-button type="warning" @click="test">测试</el-button>
-      <el-button type="primary" @click="UserConfirm('userForm')"
-        >确定</el-button
-      >
+      <el-button type="primary" @click="UserConfirm('userForm')">确定</el-button>
     </div>
   </el-dialog>
 </template>

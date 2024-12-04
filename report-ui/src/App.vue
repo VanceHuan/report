@@ -40,15 +40,35 @@ export default {
     },
     reload() {
       this.isRouterAlive = false;
-      this.$nextTick(function() {
+      this.$nextTick(function () {
         this.isRouterAlive = true;
       });
     }
   }
 };
 </script>
-<style lang="css" >
-.v-modal {
-  display: none !important;
+<style lang="css">
+
+.el-scrollbar__view .el-select-dropdown__item.hover,
+.el-select-dropdown__item:hover {
+  background: rgba(236, 242, 255, 1);
+}
+
+.el-range-editor.is-active,
+.el-range-editor.is-active:hover,
+.el-select .el-input.is-focus .el-input__inner {
+  border-color: rgba(29, 64, 175, 1);
+}
+
+/* .el-scrollbar__bar.is-vertical {
+  width: 6px;
+  height: 262px;
+  top: 2px;
+  background: rgba(211, 217, 222, 1);
+} */
+
+.el-scrollbar__thumb {
+  background: rgb(29, 64, 175);
+
 }
 </style>

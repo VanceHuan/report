@@ -1,6 +1,6 @@
 <!--
- * @Descripttion: 
- * @version: 
+ * @Descripttion:
+ * @version:
  * @Author: yanzili
  * @Date: 2021-6-24 14:48:27
  * @LastEditors: qianlishi
@@ -14,6 +14,8 @@
       :close-on-click-modal="false"
       :before-close="closeDialog"
       width="65%"
+      :append-to-body="true"
+      :modal-append-to-body="true"
     >
       <el-form
         ref="form"

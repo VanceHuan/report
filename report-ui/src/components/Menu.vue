@@ -1,6 +1,7 @@
 <template>
   <div class="menu">
     <div :class="menu.active ? 'menu-item active' : 'menu-item'" v-for="menu in menus" :key="menu.name" @click="menuClick(menu)">
+      <div v-show="menu.active" class="bar"></div>
       <img :src="menu.active ? menu.actIcon : menu.icon" alt="">
       <span>{{ menu.name }}</span>
     </div>
@@ -92,6 +93,7 @@ export default {
   margin-right: 14px;
   flex-shrink: 0;
   .menu-item {
+    position: relative;
     display: flex;
     align-items: center;
     margin-bottom: 30px;
@@ -100,6 +102,16 @@ export default {
     padding: 10px 23px;
     &.active {
       background: rgba(237, 242, 255, 1);
+    }
+    .bar {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 20px;
+      background: rgba(29, 64, 175, 1);
+      border-radius: 8px;
     }
     img {
       width: 20px;

@@ -13,6 +13,8 @@
     center
     :visible.sync="showDialog"
     :fullscreen="dialogFullScreen"
+    :append-to-body="true"
+    :modal-append-to-body="true"
     @close="handleCloseDialog('close')"
   >
     <template v-slot:title>

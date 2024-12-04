@@ -1,11 +1,3 @@
-<!--
- * @Descripttion: 为角色分配权限
- * @version:
- * @Author: Devli
- * @Date: 2021-7-17 10:46:31
- * @LastEditors: qianlishi
- * @LastEditTime: 2021-12-13 12:14:58
--->
 <template>
   <el-dialog
     class="tree_dialog"
@@ -15,6 +7,8 @@
     center
     :visible.sync="visib"
     :before-close="closeDialog"
+    :append-to-body="true"
+    :modal-append-to-body="true"
   >
     <el-tree
       ref="roleTree"
@@ -58,7 +52,6 @@ export default {
     visib(val) {
       if (val) {
         // 弹窗弹出时需要执行的逻辑
-        console.log(1);
         this.getTreeData();
       }
     }

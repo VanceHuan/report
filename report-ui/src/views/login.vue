@@ -132,6 +132,8 @@
       :visible.sync="centerDialogVisible"
       width="34%"
       center
+      :append-to-body="true"
+    :modal-append-to-body="true"
     >
       <div style="font-size: 20px; line-height: 50px; margin-bottom: 50px">
         AJ-Report由<a href="http://www.anji-plus.com/" target="_blank" style="text-decoration: underline"><b>安吉加加信息技术有限公司</b></a
